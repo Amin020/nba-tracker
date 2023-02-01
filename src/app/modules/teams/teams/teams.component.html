@@ -1,0 +1,10 @@
+<div class="teams-container">
+    <header>
+        NBA Score Tracking App
+    </header>
+    <section>
+        <p-dropdown id="teamInput" [options]="teams" [(ngModel)]="selectedTeam" [placeholder]="'Select Team'" [optionLabel]="'full_name'"></p-dropdown>
+        <button pButton id="trackBtn" label="Track Team" (click)="trackTeam(selectedTeam.id!)" [disabled]="!selectedTeam.id"></button>
+    </section>
+</div>
+
