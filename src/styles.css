@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+.flex-row {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+.flex-column {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.j-content-center {
+    justify-content: center !important;
+}
+
+.a-items-center {
+    align-items: center !important;
+}
+
+.m-top-auto {
+    margin-top: auto !important;
+}

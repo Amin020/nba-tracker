@@ -1,17 +1,28 @@
 export class Team {
 
     id?: number;
-    teamName?: string;
+    city?: string;
+    name?: string;
+    division?: string;
+    abbreviation?: string;
+    fullName?: string;
     logo?: string;
-    conference?: Conferences
-    results?: Array<any>;
-    avgNumberOfPoints?: number;
+    conference?: Conference;
+    results?: Array<Result>;
+    avgPointsScored?: number;
+    avgPointsConceded?: number;
 
-    constructor() { }
+    constructor() {
+    }
 
 }
 
-export enum Conferences {
-    western = "Western",
-    eastern = "Eastern"
+export enum Conference {
+    western = "West",
+    eastern = "East"
+}
+
+export enum Result {
+    win = "W",
+    loss = "L"
 }

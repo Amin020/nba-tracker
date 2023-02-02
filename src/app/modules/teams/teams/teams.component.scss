@@ -1,0 +1,59 @@
+.all-cards-container {
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.card-container {
+    width: fit-content;
+    border: 1px solid #cccccc;
+    padding: 10px;
+    margin-top: 10px;
+    box-shadow: 5px 5px 5px #aaaaaa;
+
+    .team-name {
+        margin-top: unset;
+        font-weight: bold;
+    }
+
+    .conference {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 7px;
+        margin-bottom: 15px;
+    }
+
+    img {
+        min-width: 150px;
+        max-width: 150px;
+        min-height: 150px;
+        max-height: 150px;
+        margin-inline-start: 10px;
+    }
+
+    .view-game-results-btn {
+        padding: 6px;
+        font-size: 14px;
+        font-weight: 200 !important;
+    }
+}
+
+.results-container {
+    max-width: 175px;
+    gap: 5px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+
+    .result-circle {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+        color: #fff;
+        border-radius: 50px;
+        
+        &.result-win {
+            background-color: green;
+        }
+        &.result-loss {
+            background-color: red;
+        }
+    }
+}
