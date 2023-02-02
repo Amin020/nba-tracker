@@ -4,7 +4,7 @@
     </h1>
     <section>
         <p-dropdown id="teamInput" [options]="teams" [(ngModel)]="selectedTeam" [placeholder]="'Select Team'" [optionLabel]="'fullName'"></p-dropdown>
-        <button pButton id="trackBtn" class="track-btn" [label]="tracking ? 'Tracking ...' : 'Track Team'" (click)="trackTeam(selectedTeam.id!)" [disabled]="!selectedTeam.id || tracking"></button>
+        <button pButton id="trackBtn" class="track-btn" [label]="tracking ? 'Tracking ...' : 'Track Team'" (click)="trackTeam(selectedTeam)" [disabled]="!selectedTeam.id || tracking"></button>
     </section>
     <section class="flex-row all-cards-container">
         <div class="card-container flex-column" *ngFor="let trackedTeam of trackedTeams">
@@ -20,12 +20,15 @@
             <div class="flex-row m-top-auto">
                 <div class="flex-column">
                     <span>
-                        Results of past {{ NUMBER_OF_DAYS_BEFORE_TODAY }} days
+                        Results of past {{ NUMBER_OF_DAYS_BEFORE_TODAY }} days:
                     </span>
                     <div class="results-container flex-row">
                         <span class="result-circle flex-row j-content-center a-items-center"
                             *ngFor="let result of trackedTeam.results"
-                            [ngClass]="{'result-win': result == RESULT.win, 'result-loss': result == RESULT.loss}">
+                            [ngClass]="{
+                                'result-win': result == RESULT.win,
+                                'result-loss': result == RESULT.loss,
+                                'result-draw': result == RESULT.draw}">
                             {{ result }}
                         </span>
                     </div>

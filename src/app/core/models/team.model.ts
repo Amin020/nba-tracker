@@ -24,5 +24,6 @@ export enum Conference {
 
 export enum Result {
     win = "W",
-    loss = "L"
+    loss = "L",
+    draw = "D"
 }

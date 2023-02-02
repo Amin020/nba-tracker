@@ -2,15 +2,15 @@ import { Team } from "./team.model";
 
 export class Game {
 
-    team: Team;
-    teamScore: number;
-    opponentTeam: Team;
-    opponentTeamScore: number;
+    homeTeam: Team;
+    homeTeamScore: number;
+    visitorTeam: Team;
+    visitorTeamScore: number;
 
     constructor() {
-        this.team = new Team();
-        this.opponentTeam = new Team();
-        this.teamScore = 0;
-        this.opponentTeamScore = 0;
+        this.homeTeam = new Team();
+        this.homeTeamScore = 0;
+        this.visitorTeam = new Team();
+        this.visitorTeamScore = 0;
     }
 }

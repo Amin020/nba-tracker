@@ -1,7 +1,6 @@
 .teams-container {
     height: 100%;
     padding: 20px;
-    background-color: #e8eff5;
     overflow: auto;
 }
 
@@ -81,6 +80,9 @@
         }
         &.result-loss {
             background-color: red;
+        }
+        &.result-draw {
+            background-color: grey;
         }
     }
 }

@@ -1,29 +1,36 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Result, Team } from 'src/app/core/models/team.model';
+import { GamesService } from 'src/app/core/services/games.service';
 import { TeamsService } from 'src/app/core/services/teams.service';
 
 @Component({
-  selector: 'app-teams',
-  templateUrl: './teams.component.html',
-  styleUrls: ['./teams.component.scss']
+  selector: 'app-teams-list',
+  templateUrl: './teams-list.component.html',
+  styleUrls: ['./teams-list.component.scss']
 })
-export class TeamsComponent implements OnInit {
+export class TeamsListComponent implements OnInit {
 
-  NUMBER_OF_DAYS_BEFORE_TODAY = 12;
   selectedTeam: Team = new Team();
   teams: Array<Team> = new Array<Team>();
-  trackedTeams: Array<Team> = new Array<Team>();
   RESULT = Result;
   tracking = false;
 
   constructor(
     private teamsService: TeamsService,
-    private messageService: MessageService
+    private gamesService: GamesService,
+    private messageService: MessageService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.getAllTeams();
+  }
+
+  private getAllTeams(): void {
     this.teamsService.getAllTeams().subscribe({
       next: (mappedTeams: Array<Team>) => {
         this.teams = mappedTeams;
@@ -31,18 +38,26 @@ export class TeamsComponent implements OnInit {
     });
   }
 
+  get trackedTeams(): Array<Team> {
+    return this.teamsService.trackedTeams;
+  }
+
+  get NUMBER_OF_DAYS_BEFORE_TODAY(): number {
+    return this.gamesService.NUMBER_OF_DAYS_BEFORE_TODAY;
+  };
+
   private isTeamTrackedBefore(teamId: number): boolean {
     return this.trackedTeams.find(trackedTeam => trackedTeam.id === teamId) !== undefined;
   }
 
-  public trackTeam(teamId: number): void {
-    if (this.isTeamTrackedBefore(teamId)) {
+  public trackTeam(team: Team): void {
+    if (this.isTeamTrackedBefore(team.id!)) {
       this.messageService.add({severity: 'error', detail: 'Team tracked before!'});
       return;
     }
 
     this.tracking = true;
-    this.teamsService.trackTeam(teamId, this.NUMBER_OF_DAYS_BEFORE_TODAY).subscribe({
+    this.teamsService.trackTeam(team).subscribe({
       next: (team: Team) => {
         this.tracking = false;
         this.trackedTeams.push(team);
@@ -62,7 +77,7 @@ export class TeamsComponent implements OnInit {
   } 
 
   public viewGameResult(trackedTeam: Team): void {
-
+    this.router.navigate(['./results', trackedTeam.id], { relativeTo: this.activatedRoute });
   }
 
 }

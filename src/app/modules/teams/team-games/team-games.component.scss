@@ -1,0 +1,40 @@
+.team-scores-container {
+    height: 100%;
+    margin: auto;
+}
+
+.card-container {
+    min-width: 20%;
+    border: 1px solid #cccccc;
+    padding: 15px 10px;
+    margin: auto;
+    box-shadow: 5px 5px 5px #aaaaaa;
+    background-color: #ffffff;
+
+    .team-name {
+        margin-top: unset;
+        font-weight: bold;
+    }
+
+    .conference {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 7px;
+        margin-bottom: 15px;
+        font-size: 12px;
+    }
+
+    .game-score {
+        line-height: 3;
+    }
+
+    .back-btn {
+        padding: 6px;
+        font-size: 14px;
+        font-weight: 200 !important;
+    }
+}
+
+p-progressSpinner {
+    height: 100%;
+    width: 100%;
+}

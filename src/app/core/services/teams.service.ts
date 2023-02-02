@@ -1,20 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { GamesMapper } from '../mappers/games.mapper';
 import { TeamsMapper } from '../mappers/teams.mapper';
+import { Game } from '../models/game.model';
 import { Team } from '../models/team.model';
+import { GamesService } from './games.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamsService {
 
+  public trackedTeams: Array<Team> = new Array<Team>();
   private baseURL = 'https://free-nba.p.rapidapi.com';
-  private gamesMapper = new GamesMapper();
   private teamsMapper = new TeamsMapper();
 
   constructor(
+    private gamesService: GamesService,
     private httpClient: HttpClient
   ) { }
 
@@ -27,35 +29,24 @@ export class TeamsService {
         }));
   }
 
-  private getDatesFilter(numberOfDaysFromNow: number): string {
-    let datesFilter = '';
-    if (numberOfDaysFromNow > 0) {
-      let currentDate = new Date();
-      for (let i = 0; i < numberOfDaysFromNow; i++) {
-        const year = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth() + 1;
-        const month = currentMonth.toString().length === 1 ? `0${currentMonth}` : currentMonth;
-        const currentDay = currentDate.getDate();
-        const day = currentDay.toString().length === 1 ? `0${currentDay}` : currentDay;
-        datesFilter += `dates[]=${year}-${month}-${day}&`;
-        currentDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
-      }
-    }
-    return datesFilter;
+  public getTeamById(teamId: number): Observable<Team> {
+    return this.httpClient.get(`${this.baseURL}/teams/${teamId}`)
+      .pipe(
+        map((team: any) => {
+          const mappedTeam = this.teamsMapper.fromJson(team);
+          return mappedTeam;
+        })
+      );
   }
 
-  public trackTeam(teamId: number, numberOfDaysFromNow: number): Observable<Object> {
-    const datesFilter = this.getDatesFilter(numberOfDaysFromNow);
-    const requestURL = `${this.baseURL}/games?page=0&${datesFilter}per_page=25&team_ids[]=${teamId}`;
-    return this.httpClient.get(requestURL)
+  public trackTeam(team: Team): Observable<Team> {
+    return this.gamesService.getTeamGamesByTeamId(team.id!)
       .pipe(
-        map((gamesResponse: any) => {
-          const mappedGames = this.gamesMapper.fromList(gamesResponse.data, teamId);
-          const mappedTeam = this.teamsMapper.fromJson(mappedGames[0].team); // Team of all array items is the same, so we will take the first one.
-          mappedTeam.results = this.teamsMapper.getTeamResult(mappedGames);
-          mappedTeam.avgPointsScored = this.teamsMapper.getTeamAvgPoints(mappedGames, 'Scored');
-          mappedTeam.avgPointsConceded = this.teamsMapper.getTeamAvgPoints(mappedGames, 'Condeded');
-          return mappedTeam;
+        map((mappedGames: Array<Game>) => {
+          team.results = this.teamsMapper.getTeamResult(mappedGames, team.id!);
+          team.avgPointsScored = this.teamsMapper.getTeamAvgPoints(mappedGames, team.id!, 'Scored');
+          team.avgPointsConceded = this.teamsMapper.getTeamAvgPoints(mappedGames, team.id!, 'Condeded');
+          return team;
         }));
   }
 

@@ -4,25 +4,37 @@ import { Result, Team } from "../models/team.model";
 
 export class TeamsMapper implements MapperInterface<Team> {
 
-    getTeamResult(games: Array<Game>): Array<Result> {
+    getTeamResult(games: Array<Game>, teamId: number): Array<Result> {
         const mappedResults = new Array<Result>();
         for (const game of games) {
-            if (game.teamScore > game.opponentTeamScore) {
-                mappedResults.push(Result.win);
-            } else {
-                mappedResults.push(Result.loss);
+            if (game.homeTeam.id === teamId) {
+                if (game.homeTeamScore > game.visitorTeamScore) {
+                    mappedResults.push(Result.win);
+                } else if (game.homeTeamScore < game.visitorTeamScore){
+                    mappedResults.push(Result.loss);
+                } else {
+                    mappedResults.push(Result.draw);
+                }
+            } else if (game.visitorTeam.id === teamId) {
+                if (game.visitorTeamScore > game.homeTeamScore) {
+                    mappedResults.push(Result.win);
+                } else if (game.visitorTeamScore < game.homeTeamScore){
+                    mappedResults.push(Result.loss);
+                } else {
+                    mappedResults.push(Result.draw);
+                }
             }
         }
         return mappedResults;
     }
 
-    getTeamAvgPoints(games: Array<Game>, type: 'Scored' | 'Condeded'): number {
+    getTeamAvgPoints(games: Array<Game>, teamId: number, type: 'Scored' | 'Condeded'): number {
         let avgPoints = 0;
         let teamTotalScore = 0;
         let opponentTeamTotalScore = 0;
         for (const game of games) {
-            teamTotalScore += game.teamScore;
-            opponentTeamTotalScore += game.opponentTeamScore;
+            teamTotalScore += game.homeTeam.id === teamId ? game.homeTeamScore : game.visitorTeamScore;
+            opponentTeamTotalScore += game.homeTeam.id === teamId ? game.visitorTeamScore : game.homeTeamScore;
         }
         if (type === 'Scored') {
             avgPoints = Math.round(teamTotalScore / games.length);

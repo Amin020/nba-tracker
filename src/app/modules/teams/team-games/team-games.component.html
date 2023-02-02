@@ -1,0 +1,29 @@
+<div class="team-scores-container flex-column">
+    <ng-container *ngIf="!loading; else loadingTmp">
+        <div class="card-container flex-column">
+            <p class="team-name">
+                {{ team.fullName }} [{{ team.abbreviation }}]
+            </p>
+            <span class="conference">
+                {{ team.conference }} Conference
+            </span>
+            <div class="flex-row m-top-auto">
+                <div class="flex-column">
+                    <span>
+                        Scores of past {{ NUMBER_OF_DAYS_BEFORE_TODAY }} days:
+                    </span>
+                    <div class="game-score" *ngFor="let game of games">
+                        <span style="font-weight: bold"> {{ game.homeTeam.abbreviation }}  </span> {{ game.homeTeamScore }} -
+                        {{ game.visitorTeamScore }} <span style="font-weight: bold"> {{ game.visitorTeam.abbreviation }}  </span>
+                    </div>
+                </div>
+            </div>
+            <button id="backBtn" pButton class="back-btn p-button-success m-top-auto"
+                label="<< Back to all team stats" (click)="backToTeamsStat()"></button>
+        </div>
+    </ng-container>
+    <ng-template #loadingTmp>
+        <p-progressSpinner class="flex-row j-content-center a-items-center"></p-progressSpinner>
+    </ng-template>
+</div>
+
