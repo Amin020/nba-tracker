@@ -1,0 +1,39 @@
+<div class="team-details-container">
+    <div class="flex-row card-header">
+        <p class="team-name">
+            {{ trackedTeam.fullName }} [{{ trackedTeam.abbreviation }}]
+        </p>
+        <a [id]="'remove' + trackedTeam.abbreviation" class="remove-icon pi pi-times" (click)="emitRemovingTeamFromTracking(trackedTeam.id!)"></a>
+    </div>
+    <span class="conference">
+        {{ trackedTeam.conference }} Conference
+    </span>
+    <div class="flex-row m-top-auto">
+        <div class="flex-column">
+            <span>
+                Results of past {{ NUMBER_OF_DAYS_BEFORE_TODAY }} days:
+            </span>
+            <div class="results-container flex-row">
+                <span class="result-circle flex-row j-content-center a-items-center"
+                    *ngFor="let result of trackedTeam.results"
+                    [ngClass]="{
+                        'result-win': result == RESULT.win,
+                        'result-loss': result == RESULT.loss,
+                        'result-draw': result == RESULT.draw}">
+                    {{ result }}
+                </span>
+            </div>
+            <div class="avg-stat">
+                Avg pts scored: <span style="font-weight: bold"> {{ trackedTeam.avgPointsScored }} </span>
+            </div>
+            <div class="avg-stat">
+                Avg pts conceded: <span style="font-weight: bold"> {{ trackedTeam.avgPointsConceded }} </span>
+            </div>
+            <button [id]="'results' + trackedTeam.abbreviation" pButton class="view-game-results-btn p-button-success m-top-auto"
+                label="See game results >>" (click)="viewGameResult(trackedTeam)"></button>
+        </div>
+        <div>
+            <img [src]="trackedTeam.logo" alt="">
+        </div>
+    </div>
+</div>

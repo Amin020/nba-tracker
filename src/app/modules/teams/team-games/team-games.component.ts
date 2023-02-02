@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { Game } from 'src/app/core/models/game.model';
@@ -12,7 +12,7 @@ import { TeamsService } from 'src/app/core/services/teams.service';
   templateUrl: './team-games.component.html',
   styleUrls: ['./team-games.component.scss']
 })
-export class TeamGamesComponent {
+export class TeamGamesComponent implements OnInit {
 
   loading = false;
   team = new Team();

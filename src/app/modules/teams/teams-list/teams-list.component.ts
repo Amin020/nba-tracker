@@ -2,8 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Result, Team } from 'src/app/core/models/team.model';
-import { GamesService } from 'src/app/core/services/games.service';
+import { Team } from 'src/app/core/models/team.model';
 import { TeamsService } from 'src/app/core/services/teams.service';
 
 @Component({
@@ -15,12 +14,10 @@ export class TeamsListComponent implements OnInit {
 
   selectedTeam: Team = new Team();
   teams: Array<Team> = new Array<Team>();
-  RESULT = Result;
   tracking = false;
 
   constructor(
     private teamsService: TeamsService,
-    private gamesService: GamesService,
     private messageService: MessageService,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -41,10 +38,6 @@ export class TeamsListComponent implements OnInit {
   get trackedTeams(): Array<Team> {
     return this.teamsService.trackedTeams;
   }
-
-  get NUMBER_OF_DAYS_BEFORE_TODAY(): number {
-    return this.gamesService.NUMBER_OF_DAYS_BEFORE_TODAY;
-  };
 
   private isTeamTrackedBefore(teamId: number): boolean {
     return this.trackedTeams.find(trackedTeam => trackedTeam.id === teamId) !== undefined;
@@ -68,16 +61,11 @@ export class TeamsListComponent implements OnInit {
     });
   }
 
-  public removeTeamFromTracking(trackedTeamId: number): void {
+  public onRemovingTeamFromTracking(trackedTeamId: number): void {
     const trackedTeamIndex = this.trackedTeams.findIndex(trackedTeam => trackedTeam.id === trackedTeamId);
     if (trackedTeamIndex !== -1) {
       this.trackedTeams.splice(trackedTeamIndex, 1);
       this.messageService.add({severity: 'success', detail: 'Team untracked successfully!'});
     }
   } 
-
-  public viewGameResult(trackedTeam: Team): void {
-    this.router.navigate(['./results', trackedTeam.id], { relativeTo: this.activatedRoute });
-  }
-
 }
