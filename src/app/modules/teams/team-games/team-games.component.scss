@@ -1,6 +1,9 @@
 .team-scores-container {
     height: 100%;
     margin: auto;
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    animation-fill-mode: both;
 }
 
 .card-container {
