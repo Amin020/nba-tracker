@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 
-let primeModules = [
+const primeModules = [
     CommonModule,
     DropdownModule,
     ButtonModule,

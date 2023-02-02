@@ -1,14 +1,40 @@
+.teams-container {
+    height: 100%;
+    padding: 20px;
+    background-color: #e8eff5;
+    overflow: auto;
+}
+
+.application-title {
+    margin-top: 0;
+}
+
 .all-cards-container {
     gap: 15px;
     flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.track-btn {
+    margin-inline-start: 20px;
+    padding: 10px;
 }
 
 .card-container {
     width: fit-content;
     border: 1px solid #cccccc;
-    padding: 10px;
+    padding: 15px 10px;
     margin-top: 10px;
     box-shadow: 5px 5px 5px #aaaaaa;
+    background-color: #ffffff;
+
+    .card-header {
+        justify-content: space-between;
+
+        .remove-icon {
+            cursor: pointer;
+        }
+    }
 
     .team-name {
         margin-top: unset;
@@ -19,6 +45,7 @@
         border-bottom: 1px solid #ccc;
         padding-bottom: 7px;
         margin-bottom: 15px;
+        font-size: 12px;
     }
 
     img {
@@ -37,7 +64,7 @@
 }
 
 .results-container {
-    max-width: 175px;
+    max-width: 150px;
     gap: 5px;
     margin-top: 10px;
     flex-wrap: wrap;
@@ -56,4 +83,9 @@
             background-color: red;
         }
     }
+}
+
+.avg-stat {
+    font-size: 14px;
+    margin: 7px 0;
 }

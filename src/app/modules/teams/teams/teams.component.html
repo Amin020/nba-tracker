@@ -1,23 +1,26 @@
 <div class="teams-container">
-    <header>
+    <h1 class="application-title">
         NBA Score Tracking App
-    </header>
+    </h1>
     <section>
         <p-dropdown id="teamInput" [options]="teams" [(ngModel)]="selectedTeam" [placeholder]="'Select Team'" [optionLabel]="'fullName'"></p-dropdown>
-        <button pButton id="trackBtn" label="Track Team" (click)="trackTeam(selectedTeam.id!)" [disabled]="!selectedTeam.id"></button>
+        <button pButton id="trackBtn" class="track-btn" [label]="tracking ? 'Tracking ...' : 'Track Team'" (click)="trackTeam(selectedTeam.id!)" [disabled]="!selectedTeam.id || tracking"></button>
     </section>
     <section class="flex-row all-cards-container">
         <div class="card-container flex-column" *ngFor="let trackedTeam of trackedTeams">
-            <p class="team-name">
-                {{ trackedTeam.fullName }} [{{ trackedTeam.abbreviation }}]
-            </p>
+            <div class="flex-row card-header">
+                <p class="team-name">
+                    {{ trackedTeam.fullName }} [{{ trackedTeam.abbreviation }}]
+                </p>
+                <a [id]="'remove' + trackedTeam.abbreviation" class="remove-icon pi pi-times" (click)="removeTeamFromTracking(trackedTeam.id!)"></a>
+            </div>
             <span class="conference">
                 {{ trackedTeam.conference }} Conference
             </span>
             <div class="flex-row m-top-auto">
                 <div class="flex-column">
                     <span>
-                        Results of past 12 days
+                        Results of past {{ NUMBER_OF_DAYS_BEFORE_TODAY }} days
                     </span>
                     <div class="results-container flex-row">
                         <span class="result-circle flex-row j-content-center a-items-center"
@@ -26,13 +29,13 @@
                             {{ result }}
                         </span>
                     </div>
-                    <div>
+                    <div class="avg-stat">
                         Avg pts scored: <span style="font-weight: bold"> {{ trackedTeam.avgPointsScored }} </span>
                     </div>
-                    <div>
+                    <div class="avg-stat">
                         Avg pts conceded: <span style="font-weight: bold"> {{ trackedTeam.avgPointsConceded }} </span>
                     </div>
-                    <button pButton class="view-game-results-btn p-button-success m-top-auto"
+                    <button [id]="'results' + trackedTeam.abbreviation" pButton class="view-game-results-btn p-button-success m-top-auto"
                         label="See game results >>" (click)="viewGameResult(trackedTeam)"></button>
                 </div>
                 <div>
@@ -42,4 +45,3 @@
         </div>
     </section>
 </div>
-
